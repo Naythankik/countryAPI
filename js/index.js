@@ -1,25 +1,3 @@
-let theme = () => {
-  let element = document.querySelector(".body");
-  if (element.classList.contains("dark")) {
-    element.classList.remove("dark");
-    element.classList.add("light");
-  } else {
-    element.classList.remove("light");
-    element.classList.add("dark");
-  }
-};
-
-let dropdown = document.querySelector(".filters-list");
-let dropButton = document.querySelector(".filter");
-dropButton.addEventListener("click", function () {
-  dropdown.toggleAttribute("hidden");
-});
-
-let back = () => {
-  mainDisplay.style.display = "grid";
-  showCountry.style.display = "none";
-};
-
 const countryApi = async () => {
   const res = await fetch("https://restcountries.com/v3.1/all");
   if (!res.ok) {
@@ -33,16 +11,24 @@ const countryApi = async () => {
   return res.json();
 };
 
+const prepareURL = (origin, countryName) => {
+  const url = new URL("/country.html", origin);
+  url.searchParams.set("country", countryName);
+  return url.toString();
+};
+
 let articleParents = document.querySelector(".main-section");
 let showCountry = document.querySelector(".overlay-display");
 
 const fetchedCountry = async () => {
   const countries = await countryApi();
+  const origin = window.location.origin;
   //   for (const allCountry of countries) {
   //   }
   countries.forEach((allCountry, index, arrays) => {
+    let countryLink = prepareURL(origin, allCountry.name.common);
     let articleLink = document.createElement("a");
-    articleLink.setAttribute("href", allCountry.name.common);
+    articleLink.setAttribute("href", countryLink);
     let article = document.createElement("article");
     article.className = allCountry.name.common;
     // article.id = index;
@@ -77,15 +63,3 @@ const fetchedCountry = async () => {
 
 // The invoking of the function
 window.onload = fetchedCountry();
-
-// let country = async (nation) => {
-//   const sing = await fetch(`https://restcountries.com/v3.1/name/${nation}`);
-//   return sing.json();
-// };
-
-// let nation = async (name) => {
-//   let cunt = await country(name);
-//   console.log(cunt);
-// };
-
-// console.log(window.onload);

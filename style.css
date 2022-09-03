@@ -193,11 +193,9 @@ div.details span {
 /* The overlay display */
 div.overlay-display {
   background: var(--bg);
-  position: absolute;
-  inset: 0;
   width: 100%;
   padding: 30px 80px;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: flex-start;
 }
