@@ -28,7 +28,7 @@ const countryApi = async () => {
 };
 
 const prepareURL = (origin, countryName) => {
-  const url = new URL("/country.html", origin);
+  const url = new URL("./country.html", origin);
   url.searchParams.set("country", countryName);
   return url.toString();
 };
@@ -39,15 +39,14 @@ let showCountry = document.querySelector(".overlay-display");
 const fetchedCountry = async () => {
   const countries = await countryApi();
   const origin = window.location.origin;
-  //   for (const allCountry of countries) {
-  //   }
-  countries.forEach((allCountry, index, arrays) => {
+  for (const allCountry of countries) {
+    //   }
+    // countries.forEach((allCountry, index, arrays) => {
     let countryLink = prepareURL(origin, allCountry.name.common);
     let articleLink = document.createElement("a");
     articleLink.setAttribute("href", countryLink);
     let article = document.createElement("article");
     article.className = allCountry.name.common;
-    // article.id = index;
 
     let imageCont = document.createElement("div");
     imageCont.className = "image-container";
@@ -74,7 +73,7 @@ const fetchedCountry = async () => {
     article.appendChild(articleDiv);
     articleLink.appendChild(article);
     articleParents.appendChild(articleLink);
-  });
+  }
 };
 
 // The invoking of the function

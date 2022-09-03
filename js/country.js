@@ -26,7 +26,7 @@ const updatePage = async () => {
   const address = new URLSearchParams(window.location.search);
   const country = address.get("country");
   const goBack = () =>
-    (window.location.href = window.location.origin + "/index.html");
+    (window.location.href = window.location.origin + "./index.html");
 
   if (!country) {
     alert(`${country} is not a valid country!`);
