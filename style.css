@@ -1,0 +1,348 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap");
+.dark {
+  --bg: hsl(207, 26%, 17%);
+  --header-bg: hsl(209, 23%, 22%);
+  --text-color: hsl(0, 0%, 100%);
+  --input-color: hsl(0, 0%, 52%);
+}
+.light {
+  --bg: hsl(0, 0%, 98%);
+  --header-bg: hsl(0, 0%, 100%);
+  --text-color: hsl(200, 15%, 8%);
+  --input-color: hsl(0, 0%, 52%);
+}
+:root {
+  --universal-color: hsl(0, 0%, 100%);
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+button {
+  cursor: pointer;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  background: var(--bg);
+  width: 100%;
+  color: var(--text-color);
+}
+header {
+  background: var(--header-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 80px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+div.mode-switch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  font-weight: 600;
+  font-size: 16px;
+  width: auto;
+}
+div.mode-switch button {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* The main styling  */
+main {
+  padding: 10px 80px;
+  display: grid;
+  grid-template-columns: auto;
+  gap: 20px;
+  position: relative;
+}
+div.top-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+label[for="search"] {
+  width: 35%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 1px var(--shadow);
+}
+label[for="search"] input,
+label[for="search"] button {
+  padding: 10px;
+  border: none;
+  outline: none;
+  color: var(--input-color);
+  background: var(--header-bg);
+}
+label[for="search"] input {
+  border-radius: 0 5px 5px 0;
+}
+label[for="search"] button {
+  border-radius: 5px 0 0 5px;
+  color: var(--text-color);
+}
+label[for="search"] input::placeholder {
+  color: var(--text-color);
+}
+
+label[for="search"] input:focus {
+  background: var(--header-bg);
+}
+div.filter-search {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 5px;
+  position: relative;
+  box-shadow: 0 0 10px 1px var(--shadow);
+}
+label[for="filter"] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+label[for="filter"] input,
+label[for="filter"] button {
+  outline: none;
+  background: var(--header-bg);
+  border: none;
+  color: var(--text-color);
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+label[for="filter"] input {
+  border-radius: 5px 0 0 5px;
+}
+
+label[for="filter"] button {
+  border-radius: 0 5px 5px 0;
+}
+ul {
+  list-style: none;
+  background: var(--header-bg);
+  box-shadow: 0 0 10px 1px var(--shadow);
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: 600;
+  position: absolute;
+  width: 100%;
+  top: 2.5rem;
+  z-index: 10;
+}
+li {
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+/* The display of all country's article */
+div.main-section {
+  gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+div.main-section a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+div.main-section article {
+  background: var(--header-bg);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: auto;
+  gap: 1rem;
+  cursor: pointer;
+}
+article div.image-container {
+  width: 100%;
+  height: 100%;
+}
+article img {
+  border-radius: 5px 5px 0 0;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+div.details {
+  padding: 10px 20px;
+  display: grid;
+}
+div.details h3 {
+  margin-bottom: 1rem;
+}
+div.details span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* The overlay display */
+div.overlay-display {
+  background: var(--bg);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  padding: 30px 80px;
+  display: none;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+div.display-container {
+  width: 100%;
+  display: grid;
+  justify-items: self-start;
+  gap: 50px;
+}
+div.display-container > button {
+  outline: none;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 5px;
+  background: var(--header-bg);
+  color: var(--text-color);
+  box-shadow: 0 0 10px 1px var(--shadow);
+}
+div.display-container > button i {
+  margin-right: 7px;
+}
+article.main-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+article.main-display img {
+  border-radius: unset;
+}
+div.display-image {
+  width: 40%;
+  height: 50vh;
+}
+div.display-image img {
+  width: 100%;
+  height: 100%;
+}
+div.right-display {
+  width: 50%;
+  padding: 10px 0;
+  display: grid;
+  gap: 20px;
+}
+div.right-display h1 {
+  font-size: 2em;
+}
+div.display-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+}
+div.display-details > div {
+  display: grid;
+  gap: 5px;
+}
+div.display-details span,
+div.display-border span {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+div.display-border {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+div.border-list {
+  gap: 10px;
+  display: flex;
+}
+div.border-list button {
+  outline: none;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  background: var(--header-bg);
+  color: var(--text-color);
+  box-shadow: 0 0 10px 1px var(--shadow);
+  width: auto;
+}
+@media only screen and (max-width: 850px) {
+  header,
+  main {
+    padding: 20px 10px;
+  }
+  header h2 {
+    font-size: 16px;
+  }
+  div.mode-switch {
+    font-size: 14px;
+    gap: 7px;
+  }
+  div.top-section {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+  div.filter-search {
+    width: 50%;
+    padding: 0;
+  }
+  label[for="search"] {
+    width: 100%;
+    margin: auto;
+  }
+  label[for="filter"] {
+    width: 100%;
+  }
+  article {
+    width: 90%;
+    margin: auto;
+  }
+
+  div.overlay-display {
+    padding: 30px;
+  }
+  article.main-display {
+    display: grid;
+    gap: 30px;
+    margin-bottom: 4rem;
+  }
+  div.display-image,
+  div.right-display {
+    width: auto;
+  }
+  div.right-display h1 {
+    font-size: 1.5em;
+  }
+  div.display-details {
+    display: grid;
+    gap: 40px;
+  }
+  div.display-border {
+    display: grid;
+    gap: 20px;
+  }
+  div.display-border span {
+    font-size: 16px;
+  }
+  div.border-list {
+    gap: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+}
