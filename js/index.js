@@ -14,17 +14,38 @@ let dropButton = document.querySelector(".filter");
 dropButton.addEventListener("click", function () {
   dropdown.toggleAttribute("hidden");
 });
-const countryApi = async () => {
-  const res = await fetch("https://restcountries.com/v3.1/all");
-  if (!res.ok) {
-    console.log("Error interacting with the API");
-  }
 
-  if (res.status != 200) {
-    console.log("Error with status code: " + res.status);
+const handleSearchInput = (value) => {
+  if (value.trim() === "") {
+    clearDisplay();
+    fetchedCountry();
+  } else {
+    fetchedCountry(value);
   }
+};
 
-  return res.json();
+const clearDisplay = () => {
+  articleParents.innerHTML = "";
+};
+
+const countryApi = async (value) => {
+  try {
+    const res = await fetch(value);
+    if (!res.ok) {
+      console.error("Error interacting with the API");
+      return [];
+    }
+
+    if (res.status !== 200) {
+      console.error("Error with status code: " + res.status);
+      return [];
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+    return [];
+  }
 };
 
 const prepareURL = (origin, countryName) => {
@@ -34,47 +55,71 @@ const prepareURL = (origin, countryName) => {
 };
 
 let articleParents = document.querySelector(".main-section");
-let showCountry = document.querySelector(".overlay-display");
 
-const fetchedCountry = async () => {
-  const countries = await countryApi();
-  const origin = window.location.origin;
-  for (const allCountry of countries) {
-    //   }
-    // countries.forEach((allCountry, index, arrays) => {
-    let countryLink = prepareURL(origin, allCountry.name.common);
-    let articleLink = document.createElement("a");
-    articleLink.setAttribute("href", countryLink);
-    let article = document.createElement("article");
-    article.className = allCountry.name.common;
+const fetchedCountry = async (value) => {
+  const apiUrl = value
+    ? `https://restcountries.com/v3.1/name/${value}`
+    : "https://restcountries.com/v3.1/all";
 
-    let imageCont = document.createElement("div");
-    imageCont.className = "image-container";
+  try {
+    const countries = await countryApi(apiUrl);
+    const origin = window.location.href;
+    clearDisplay();
+    const createCountryArticle = (country) => {
+      let countryLink = prepareURL(origin, country.name.common);
+      let articleLink = document.createElement("a");
+      articleLink.setAttribute("href", countryLink);
+      let article = document.createElement("article");
+      article.className = country.name.common;
 
-    let articleImage = document.createElement("img");
-    articleImage.setAttribute("src", allCountry.flags.svg);
-    articleImage.setAttribute("alt", allCountry.name.common);
+      let imageCont = document.createElement("div");
+      imageCont.className = "image-container";
 
-    let articleDiv = document.createElement("div");
-    articleDiv.classList.add("details");
+      let articleImage = document.createElement("img");
+      articleImage.setAttribute("src", country.flags.svg);
+      articleImage.setAttribute("alt", country.name.common);
 
-    let divHeading = document.createElement("h3");
-    divHeading.innerHTML = allCountry.name.common;
+      let articleDiv = document.createElement("div");
+      articleDiv.classList.add("details");
 
-    let divBody = document.createElement("p");
-    divBody.innerHTML = `<span>Population: </span> ${allCountry.population}
-       <br> <span>Region: </span> ${allCountry.region}
-        <br> <span>Capital: </span> ${allCountry.capital} `;
+      let divHeading = document.createElement("h3");
+      divHeading.innerHTML = country.name.common;
 
-    imageCont.appendChild(articleImage);
-    articleDiv.appendChild(divHeading);
-    articleDiv.appendChild(divBody);
-    article.appendChild(imageCont);
-    article.appendChild(articleDiv);
-    articleLink.appendChild(article);
-    articleParents.appendChild(articleLink);
+      let divBody = document.createElement("p");
+      divBody.innerHTML = `<span>Population: </span> ${country.population}
+           <br> <span>Region: </span> ${country.region}
+            <br> <span>Capital: </span> ${country.capital} `;
+
+      imageCont.appendChild(articleImage);
+      articleDiv.appendChild(divHeading);
+      articleDiv.appendChild(divBody);
+      article.appendChild(imageCont);
+      article.appendChild(articleDiv);
+      articleLink.appendChild(article);
+
+      return articleLink;
+    };
+
+    if (countries.length === 1) {
+      const country = countries[0];
+      let countryLink = prepareURL(origin, country.name.common);
+      let articleLink = document.createElement("a");
+      articleLink.setAttribute("href", countryLink);
+      let article = createCountryArticle(country);
+
+      articleLink.appendChild(article);
+      articleParents.appendChild(articleLink);
+    } else if (countries.length > 1) {
+      for (const country of countries) {
+        let article = createCountryArticle(country);
+        articleParents.appendChild(article);
+      }
+    } else {
+    }
+  } catch (error) {
+    console.error("Error processing country data:", error.message);
   }
 };
 
 // The invoking of the function
-window.onload = fetchedCountry();
+window.onload = () => fetchedCountry();

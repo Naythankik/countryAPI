@@ -36,8 +36,6 @@ const updatePage = async () => {
     const req = await getCountry(country);
     let detail = req[0];
 
-    console.log(detail);
-
     let imageContainer = document.createElement("div");
     imageContainer.className = "display-image";
     let image = document.createElement("img");
@@ -108,7 +106,6 @@ const updatePage = async () => {
   }
 };
 
-// console.log(updatePage());
 updatePage();
 
 let theme = () => {
@@ -121,9 +118,3 @@ let theme = () => {
     element.classList.add("dark");
   }
 };
-
-let dropdown = document.querySelector(".filters-list");
-let dropButton = document.querySelector(".filter");
-dropButton.addEventListener("click", function () {
-  dropdown.toggleAttribute("hidden");
-});

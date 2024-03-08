@@ -4,16 +4,27 @@
   --header-bg: hsl(209, 23%, 22%);
   --text-color: hsl(0, 0%, 100%);
   --input-color: hsl(0, 0%, 52%);
+  --icon-color: #ffffff;
 }
 .light {
   --bg: hsl(0, 0%, 98%);
   --header-bg: hsl(0, 0%, 100%);
   --text-color: hsl(200, 15%, 8%);
   --input-color: hsl(0, 0%, 52%);
+  --icon-color: #000000;
 }
 :root {
   --universal-color: hsl(0, 0%, 100%);
   --shadow: rgba(0, 0, 0, 0.1);
+}
+
+div.reference {
+  text-align: center;
+  position: sticky;
+  width: 100%;
+  background: var(--header-bg);
+  bottom: 0;
+  padding: 10px 0;
 }
 
 * {
@@ -22,7 +33,7 @@
   box-sizing: border-box;
 }
 button {
-  cursor: pointer;
+  color: var(--icon-color);
 }
 
 body {
@@ -49,6 +60,7 @@ div.mode-switch {
   font-weight: 600;
   font-size: 16px;
   width: auto;
+  cursor: pointer;
 }
 div.mode-switch button {
   border: none;
@@ -68,6 +80,8 @@ div.top-section {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+  position: sticky;
+  top: 4rem;
 }
 label[for="search"] {
   width: 35%;
