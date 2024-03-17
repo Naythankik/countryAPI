@@ -15,6 +15,12 @@ dropButton.addEventListener("click", function () {
   dropdown.toggleAttribute("hidden");
 });
 
+for (const list of dropdown.children) {
+  list.addEventListener("click", (e) => {
+    fetchedCountry(e.target.innerHTML);
+    dropdown.toggleAttribute("hidden");
+  });
+}
 const handleSearchInput = (value) => {
   if (value.trim() === "") {
     clearDisplay();
@@ -31,19 +37,8 @@ const clearDisplay = () => {
 const countryApi = async (value) => {
   try {
     const res = await fetch(value);
-    if (!res.ok) {
-      console.error("Error interacting with the API");
-      return [];
-    }
-
-    if (res.status !== 200) {
-      console.error("Error with status code: " + res.status);
-      return [];
-    }
-
     return res.json();
   } catch (error) {
-    console.error("Error fetching data:", error.message);
     return [];
   }
 };
@@ -57,14 +52,20 @@ const prepareURL = (origin, countryName) => {
 let articleParents = document.querySelector(".main-section");
 
 const fetchedCountry = async (value) => {
+  const filterArray = ["africa", "america", "oceania", "asia", "europe"];
+
   const apiUrl = value
-    ? `https://restcountries.com/v3.1/name/${value}`
+    ? filterArray.includes(value)
+      ? `https://restcountries.com/v3.1/region/${value}`
+      : `https://restcountries.com/v3.1/name/${value}`
     : "https://restcountries.com/v3.1/all";
 
   try {
     const countries = await countryApi(apiUrl);
     const origin = window.location.href;
+
     clearDisplay();
+
     const createCountryArticle = (country) => {
       let countryLink = prepareURL(origin, country.name.common);
       let articleLink = document.createElement("a");
@@ -117,7 +118,7 @@ const fetchedCountry = async (value) => {
     } else {
     }
   } catch (error) {
-    console.error("Error processing country data:", error.message);
+    // console.error("Error processing country data:", error.message);
   }
 };
 
